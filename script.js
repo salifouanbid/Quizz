@@ -46,7 +46,13 @@ function getAllQuestions() {
 }
 
 function saveCustomQuestions(items) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        return true;
+    } catch (error) {
+        window.alert("Impossible d'enregistrer les questions dans ce navigateur. Vérifie l'espace de stockage disponible.");
+        return false;
+    }
 }
 
 function renderHome() {
@@ -302,17 +308,40 @@ function saveAdminQuestion(event) {
         return;
     }
 
-    const custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    let custom;
+    try {
+        custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        if (!Array.isArray(custom)) custom = [];
+    } catch (error) {
+        custom = [];
+    }
+
     const editIndex = document.getElementById("editIndex").value;
     const item = { question, options, reponses: correctIndex };
-    if (editIndex === "") custom.push(item);
-    else custom[Number(editIndex)] = item;
-    saveCustomQuestions(custom);
-    renderAdmin();
+
+    if (editIndex === "") {
+        custom.push(item);
+    } else {
+        const index = Number(editIndex);
+        if (!Number.isInteger(index) || index < 0 || index >= custom.length) {
+            message.textContent = "Cette question n'existe plus. Actualise la liste puis réessaie.";
+            message.className = "admin-message error";
+            return;
+        }
+        custom[index] = item;
+    }
+
+    if (saveCustomQuestions(custom)) renderAdmin();
 }
 
 function editAdminQuestion(index) {
-    const custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    let custom;
+    try {
+        custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        if (!Array.isArray(custom)) custom = [];
+    } catch (error) {
+        custom = [];
+    }
     const q = custom[index];
     if (!q) return;
     document.getElementById("editIndex").value = index;
@@ -326,10 +355,15 @@ function editAdminQuestion(index) {
 
 function deleteAdminQuestion(index) {
     if (!window.confirm("Supprimer définitivement cette question personnelle ?")) return;
-    const custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    let custom;
+    try {
+        custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        if (!Array.isArray(custom)) custom = [];
+    } catch (error) {
+        custom = [];
+    }
     custom.splice(index, 1);
-    saveCustomQuestions(custom);
-    renderAdmin();
+    if (saveCustomQuestions(custom)) renderAdmin();
 }
 
 function resetAdminForm() {
