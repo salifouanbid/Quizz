@@ -6,7 +6,7 @@ const questions = [
     { question: "Qu'utilise-t-on pour afficher du texte en Python ?", options: ["print('Hello')", "printf('Hello')", "echo('Hello')", "display('Hello')"], reponses: 1 },
     { question: "Quel symbole utilise-t-on pour écrire un commentaire en Python ?", options: ["//", "#", "**", "&&"], reponses: 2 },
     { question: "Quelle est la bonne syntaxe pour déclarer une variable ?", options: ["my_score = 223", "my score = 223", "2my_score = 223", "++my score == 223"], reponses: 1 },
-    { question: "Quelle est la nature de cette variable : var = 'Laureen' ?", options: ["integer", "string", "boolean", "list"], reponses: 2 },
+    { question: "Quelle est la nature de cette variable : var = 'Anbid' ?", options: ["integer", "string", "boolean", "list"], reponses: 2 },
     { question: "Quelle fonction permet de vérifier le type d'une variable ?", options: ["dtype()", "d_type()", "type()", "find_type()"], reponses: 3 },
     { question: "Quelle fonction permet de demander une saisie à l'utilisateur ?", options: ["scanf()", "getchar()", "input()", "type()"], reponses: 3 },
     { question: "Quel type de donnée renvoie input() par défaut ?", options: ["string", "boolean", "integer", "dictionnaire"], reponses: 1 },
